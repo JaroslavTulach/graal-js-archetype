@@ -82,8 +82,8 @@ final class StandaloneWizard {
             + "window.body.innerHTML = 'Closed';\n")
     private static native void windowClose();
 
-    void waitFinished() throws InterruptedException {
-        finished.exchange(Collections.emptySet());
+    Set<?> waitFinished() throws InterruptedException {
+        return finished.exchange(Collections.emptySet());
     }
     
 }

@@ -1,6 +1,7 @@
 package com.oracle.graaljs.nodewizard;
 
 import java.awt.Desktop;
+import java.io.File;
 import java.net.URI;
 import java.util.concurrent.CountDownLatch;
 import net.java.html.boot.BrowserBuilder;
@@ -10,15 +11,21 @@ import org.netbeans.api.htmlui.HTMLDialog;
 import org.openide.WizardDescriptor;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
+import org.openide.loaders.DataFolder;
+import org.openide.loaders.DataObject;
 import org.openide.loaders.TemplateWizard;
 
 public class PlainViewTest {
     @Test
     public void plainView() throws Exception {
-        FileObject fo = FileUtil.getConfigFile("Templates/Project/ClientSide/nodeJsJava.archetype");
-        Assert.assertNotNull(fo);
-        WizardDescriptor.InstantiatingIterator<WizardDescriptor> it = (WizardDescriptor.InstantiatingIterator<WizardDescriptor>) fo.getAttribute("instantiatingIterator");
+        FileObject template = FileUtil.getConfigFile("Templates/Project/ClientSide/nodeJsJava.archetype");
+        Assert.assertNotNull(template);
+        WizardDescriptor.InstantiatingIterator<WizardDescriptor> it;
+        it = (WizardDescriptor.InstantiatingIterator<WizardDescriptor>) template.getAttribute("instantiatingIterator");
         TemplateWizard wd = new TemplateWizard();
+        wd.setTemplate(DataObject.find(template));
+        FileObject userDir = FileUtil.toFileObject(new File(System.getProperty("user.dir")));
+        wd.setTargetFolder(DataFolder.findFolder(userDir));
         it.initialize(wd);
         HTMLDialog dlg = (HTMLDialog) it.current().getComponent();
         
@@ -41,6 +48,8 @@ public class PlainViewTest {
                 showAndWait();
         
         wizReady.await();
-        wiz[0].waitFinished();
+        for (Object obj : wiz[0].waitFinished()) {
+            System.err.println("created: " + obj);
+        }
     }
 }

@@ -157,6 +157,7 @@
             <artifactId>org-netbeans-modules-java-project-ui</artifactId>
             <version>RELEASE110</version>
             <type>jar</type>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.netbeans.api</groupId>
@@ -201,6 +202,18 @@
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-dialogs</artifactId>
             <version>RELEASE110</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.modules</groupId>
+            <artifactId>org-netbeans-modules-projectapi-nb</artifactId>
+            <version>RELEASE110</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.modules</groupId>
+            <artifactId>org-netbeans-modules-masterfs</artifactId>
+            <version>RELEASE110</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <properties>
