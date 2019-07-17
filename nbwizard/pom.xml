@@ -62,6 +62,19 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.netbeans.html</groupId>
+                <artifactId>html4j-maven-plugin</artifactId>
+                <version>1.6.1</version>
+                <executions>
+                    <execution>
+                        <id>js-classes</id>
+                        <goals>
+                            <goal>process-js-annotations</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>            
         </plugins>
     </build>
     <repositories>
@@ -184,8 +197,14 @@
             <version>1.6.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-dialogs</artifactId>
+            <version>RELEASE110</version>
+        </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <netbeans.compile.on.save>none</netbeans.compile.on.save>
     </properties>
 </project>
