@@ -1,8 +1,12 @@
 package com.oracle.graaljs.nodewizard;
 
+import java.awt.Desktop;
+import java.net.URI;
 import java.util.Enumeration;
+import net.java.html.boot.BrowserBuilder;
 import org.junit.Assert;
 import org.junit.Test;
+import org.netbeans.api.htmlui.HTMLDialog;
 import org.openide.WizardDescriptor;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
@@ -26,6 +30,20 @@ public class PlainViewTest {
         WizardDescriptor.InstantiatingIterator<WizardDescriptor> it = (WizardDescriptor.InstantiatingIterator<WizardDescriptor>) fo.getAttribute("instantiatingIterator");
         TemplateWizard wd = new TemplateWizard();
         it.initialize(wd);
-        Assert.fail("it: " + it.current());
+        HTMLDialog dlg = (HTMLDialog) it.current().getComponent();
+        
+        String browser = "AWT";
+        try {
+            Desktop.getDesktop().browse(new URI("http://graalvm.org"));
+        } catch (UnsupportedOperationException e) {
+            browser = "xdg-open";
+        }
+        System.setProperty("com.dukescript.presenters.browser", browser);
+        BrowserBuilder.newBrowser(dlg.getIds().toArray()).
+                loadPage(dlg.getUrl()).
+                loadFinished(dlg.getOnPageLoad()).
+                showAndWait();
+        
+        System.in.read();
     }
 }

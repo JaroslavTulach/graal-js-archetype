@@ -5,9 +5,31 @@ import java.util.Arrays;
 import java.util.List;
 import javax.swing.JPanel;
 
-public @interface HTMLDialog {
+public class HTMLDialog extends JPanel {
+    private final String url;
+    private final List<String> ids;
+    private final Runnable onPageLoad;
+
+    public HTMLDialog(String url, List<String> ids, Runnable onPageLoad) {
+        this.url = url;
+        this.ids = ids;
+        this.onPageLoad = onPageLoad;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public List<String> getIds() {
+        return ids;
+    }
+
+    public Runnable getOnPageLoad() {
+        return onPageLoad;
+    }
+    
     public static final class Builder {
-        private String url;
+        private final String url;
         private final List<String> ids;
         private Runnable onPageLoad;
         
@@ -77,7 +99,7 @@ public @interface HTMLDialog {
          * @return instance of the requested component
          */
         public <C> C component(Class<C> type) {
-            return type.cast(new JPanel());
+            return type.cast(new HTMLDialog(url, ids, onPageLoad));
         }
     }
     
